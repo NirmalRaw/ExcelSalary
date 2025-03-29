@@ -31,13 +31,6 @@
             border: none;
             cursor: pointer;
         }
-        #quotation {
-            margin-top: 20px;
-            padding: 20px;
-            background: #fff;
-            border-radius: 5px;
-            box-shadow: 0px 0px 10px #ccc;
-        }
     </style>
 </head>
 <body>
@@ -49,33 +42,6 @@
         <input type="date" id="deliveryDate" placeholder="Expected Delivery Date">
         <textarea id="features" placeholder="Enter features (comma separated)"></textarea>
         <button onclick="generateQuotation()">Generate Quotation</button>
-        <button onclick="downloadQuotation()">Download Quotation</button>
-    </div>
-    <div id="quotation" class="container" style="display: none;">
-        <h3>Quotation</h3>
-        <p><strong>Company:</strong> Excel Salary</p>
-        <p><strong>Client:</strong> <span id="qClient"></span></p>
-        <p><strong>Total Price:</strong> ₹<span id="qPrice"></span></p>
-        <p><strong>Advance Payment:</strong> ₹<span id="qAdvance"></span></p>
-        <p><strong>Remaining Balance:</strong> ₹<span id="qRemaining"></span></p>
-        <p><strong>Expected Delivery Date:</strong> <span id="qDeliveryDate"></span></p>
-        <p><strong>Features Included:</strong></p>
-        <ul id="qFeatures"></ul>
-        <p><strong>Support Duration:</strong> <span id="qSupport"></span></p>
-        <p><strong>Terms & Conditions:</strong></p>
-        <ul>
-            <li>The quoted price includes the software and support for a duration based on the selected plan:
-            <ul>
-                <li>₹999 - Support for 1 year</li>
-                <li>₹599 - Support for 6 months</li>
-                <li>₹499 - Support for 3 months</li>
-            </ul></li>
-            <li>Any additional features or modifications will be charged separately.</li>
-            <li>Delivery will be as per the expected date mentioned above.</li>
-            <li>Advance payment is non-refundable.</li>
-        </ul>
-        <p><strong>For any help or queries, contact us at:</strong> +91 89606 40168</p>
-        <p><strong>Thank You from Excel Salary Sales Team!</strong></p>
     </div>
 
     <script>
@@ -91,37 +57,42 @@
             else if (totalPrice === 599) supportDuration = "6 months";
             else if (totalPrice === 499) supportDuration = "3 months";
             
-            document.getElementById("qClient").innerText = clientName;
-            document.getElementById("qPrice").innerText = totalPrice.toFixed(2);
-            document.getElementById("qAdvance").innerText = advancePayment.toFixed(2);
-            document.getElementById("qRemaining").innerText = remainingBalance.toFixed(2);
-            document.getElementById("qDeliveryDate").innerText = deliveryDate;
-            document.getElementById("qSupport").innerText = supportDuration;
+            let features = document.getElementById("features").value.split(",").map(f => f.trim()).join("\n- ");
             
-            let features = document.getElementById("features").value.split(",");
-            let featuresList = document.getElementById("qFeatures");
-            featuresList.innerHTML = "";
-            features.forEach(f => {
-                let li = document.createElement("li");
-                li.innerText = f.trim();
-                featuresList.appendChild(li);
-            });
-            
-            document.getElementById("quotation").style.display = "block";
-        }
-
-        function downloadQuotation() {
-            const { jsPDF } = window.jspdf;
-            let doc = new jsPDF();
-            doc.setFontSize(14);
-            doc.text("Quotation - Excel Salary", 10, 10);
-            doc.setFontSize(12);
-            
-            let content = document.getElementById("quotation").innerText;
-            let lines = doc.splitTextToSize(content, 180);
-            doc.text(lines, 10, 20);
-            
-            doc.save("Quotation.pdf");
+            let newPage = window.open("", "_blank");
+            newPage.document.write(`
+                <html>
+                <head><title>Quotation</title></head>
+                <body style='font-family: Arial, sans-serif; padding: 20px;'>
+                    <h2>Quotation</h2>
+                    <p><strong>Company:</strong> Excel Salary</p>
+                    <p><strong>Client:</strong> ${clientName}</p>
+                    <p><strong>Total Price:</strong> ₹${totalPrice.toFixed(2)}</p>
+                    <p><strong>Advance Payment:</strong> ₹${advancePayment.toFixed(2)}</p>
+                    <p><strong>Remaining Balance:</strong> ₹${remainingBalance.toFixed(2)}</p>
+                    <p><strong>Expected Delivery Date:</strong> ${deliveryDate}</p>
+                    <p><strong>Features Included:</strong></p>
+                    <ul><li>${features.replace(/\n/g, '</li><li>')}</li></ul>
+                    <p><strong>Support Duration:</strong> ${supportDuration}</p>
+                    <p><strong>Terms & Conditions:</strong></p>
+                    <ul>
+                        <li>The quoted price includes the software and support for a duration based on the selected plan:
+                            <ul>
+                                <li>₹999 - Support for 1 year</li>
+                                <li>₹599 - Support for 6 months</li>
+                                <li>₹499 - Support for 3 months</li>
+                            </ul>
+                        </li>
+                        <li>Any additional features or modifications will be charged separately.</li>
+                        <li>Delivery will be as per the expected date mentioned above.</li>
+                        <li>Advance payment is non-refundable.</li>
+                    </ul>
+                    <p><strong>For any help or queries, contact us at:</strong> +91 89606 40168</p>
+                    <p><strong>Thank You from Excel Salary Sales Team!</strong></p>
+                </body>
+                </html>
+            `);
+            newPage.document.close();
         }
     </script>
 </body>
