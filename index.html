@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quotation Maker - Excel Salary</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px #aaa;
+        }
+        input, textarea {
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 8px;
+        }
+        button {
+            padding: 10px;
+            background: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        #quotation {
+            margin-top: 20px;
+            padding: 20px;
+            background: #fff;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px #ccc;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Quotation Maker - Excel Salary</h2>
+        <input type="text" id="clientName" placeholder="Client Name">
+        <input type="text" id="appPrice" placeholder="Total Price">
+        <input type="text" id="advance" placeholder="Advance Payment">
+        <input type="date" id="deliveryDate" placeholder="Expected Delivery Date">
+        <textarea id="features" placeholder="Enter features (comma separated)"></textarea>
+        <button onclick="generateQuotation()">Generate Quotation</button>
+        <button onclick="downloadQuotation()">Download Quotation</button>
+    </div>
+    <div id="quotation" class="container" style="display: none;">
+        <h3>Quotation</h3>
+        <p><strong>Company:</strong> Excel Salary</p>
+        <p><strong>Client:</strong> <span id="qClient"></span></p>
+        <p><strong>Total Price:</strong> ₹<span id="qPrice"></span></p>
+        <p><strong>Advance Payment:</strong> ₹<span id="qAdvance"></span></p>
+        <p><strong>Remaining Balance:</strong> ₹<span id="qRemaining"></span></p>
+        <p><strong>Expected Delivery Date:</strong> <span id="qDeliveryDate"></span></p>
+        <p><strong>Features:</strong></p>
+        <ul id="qFeatures"></ul>
+    </div>
+
+    <script>
+        function generateQuotation() {
+            let clientName = document.getElementById("clientName").value;
+            let totalPrice = parseFloat(document.getElementById("appPrice").value) || 0;
+            let advancePayment = parseFloat(document.getElementById("advance").value) || 0;
+            let remainingBalance = totalPrice - advancePayment;
+            let deliveryDate = document.getElementById("deliveryDate").value;
+            
+            document.getElementById("qClient").innerText = clientName;
+            document.getElementById("qPrice").innerText = totalPrice.toFixed(2);
+            document.getElementById("qAdvance").innerText = advancePayment.toFixed(2);
+            document.getElementById("qRemaining").innerText = remainingBalance.toFixed(2);
+            document.getElementById("qDeliveryDate").innerText = deliveryDate;
+            
+            let features = document.getElementById("features").value.split(",");
+            let featuresList = document.getElementById("qFeatures");
+            featuresList.innerHTML = "";
+            features.forEach(f => {
+                let li = document.createElement("li");
+                li.innerText = f.trim();
+                featuresList.appendChild(li);
+            });
+            
+            document.getElementById("quotation").style.display = "block";
+        }
+
+        function downloadQuotation() {
+            let quotationHTML = `
+                <!DOCTYPE html>
+                <html lang="en">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>Quotation - Excel Salary</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; padding: 20px; background: #f4f4f4; }
+                        .container { background: white; padding: 20px; border-radius: 5px; box-shadow: 0px 0px 10px #aaa; }
+                    </style>
+                </head>
+                <body>
+                    <div class="container">
+                        <h3>Quotation</h3>
+                        <p><strong>Company:</strong> Excel Salary</p>
+                        <p><strong>Client:</strong> ${document.getElementById("qClient").innerText}</p>
+                        <p><strong>Total Price:</strong> ₹${document.getElementById("qPrice").innerText}</p>
+                        <p><strong>Advance Payment:</strong> ₹${document.getElementById("qAdvance").innerText}</p>
+                        <p><strong>Remaining Balance:</strong> ₹${document.getElementById("qRemaining").innerText}</p>
+                        <p><strong>Expected Delivery Date:</strong> ${document.getElementById("qDeliveryDate").innerText}</p>
+                        <p><strong>Features:</strong></p>
+                        <ul>${document.getElementById("qFeatures").innerHTML}</ul>
+                    </div>
+                </body>
+                </html>
+            `;
+
+            let blob = new Blob([quotationHTML], { type: "text/html" });
+            let link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = "Quotation_Excel_Salary.html";
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    </script>
+</body>
+</html>
