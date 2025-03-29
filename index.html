@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quotation Maker - Excel Salary Updated</title>
+    <title>Quotation Maker - Excel Salary</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
         body {
@@ -42,7 +42,7 @@
 </head>
 <body>
     <div class="container">
-        <h2>Quotation Maker - Excel Salary Updated</h2>
+        <h2>Quotation Maker - Excel Salary</h2>
         <input type="text" id="clientName" placeholder="Client Name">
         <input type="text" id="appPrice" placeholder="Total Price">
         <input type="text" id="advance" placeholder="Advance Payment">
@@ -113,15 +113,14 @@
         function downloadQuotation() {
             const { jsPDF } = window.jspdf;
             let doc = new jsPDF();
+            doc.setFontSize(14);
             doc.text("Quotation - Excel Salary", 10, 10);
-            doc.text("Client: " + document.getElementById("qClient").innerText, 10, 20);
-            doc.text("Total Price: ₹" + document.getElementById("qPrice").innerText, 10, 30);
-            doc.text("Advance Payment: ₹" + document.getElementById("qAdvance").innerText, 10, 40);
-            doc.text("Remaining Balance: ₹" + document.getElementById("qRemaining").innerText, 10, 50);
-            doc.text("Expected Delivery Date: " + document.getElementById("qDeliveryDate").innerText, 10, 60);
-            doc.text("Support Duration: " + document.getElementById("qSupport").innerText, 10, 70);
-            doc.text("For any queries, contact: +91 89606 40168", 10, 80);
-            doc.text("Thank You from Excel Salary Sales Team!", 10, 90);
+            doc.setFontSize(12);
+            
+            let content = document.getElementById("quotation").innerText;
+            let lines = doc.splitTextToSize(content, 180);
+            doc.text(lines, 10, 20);
+            
             doc.save("Quotation.pdf");
         }
     </script>
