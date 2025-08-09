@@ -18,7 +18,42 @@
             padding: 20px;
             border-radius: 5px;
             box-shadow: 0px 0px 10px #aaa;
+            position: relative;
         }
+
+        .dark-mode {
+            background-color: #121212;
+            color: #ffffff;
+        }
+
+        .dark-mode .container {
+            background: #1e1e1e;
+            box-shadow: 0px 0px 10px #000;
+        }
+
+        .dark-mode input, .dark-mode textarea {
+            background-color: #333;
+            color: #fff;
+            border-color: #555;
+        }
+
+        .dark-mode button {
+            background: #0056b3;
+        }
+
+        #darkModeToggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #555;
+            color: #fff;
+        }
+
+        .dark-mode #darkModeToggle {
+            background: #f4f4f4;
+            color: #121212;
+        }
+
         input, textarea {
             width: 100%;
             margin-bottom: 10px;
@@ -35,6 +70,7 @@
 </head>
 <body>
     <div class="container">
+        <button onclick="toggleDarkMode()" id="darkModeToggle">Toggle Dark Mode</button>
         <h2>Quotation Maker - Excel Salary</h2>
         <input type="text" id="clientName" placeholder="Client Name">
         <input type="text" id="appPrice" placeholder="Total Price">
@@ -45,6 +81,10 @@
     </div>
 
     <script>
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+        }
+
         function generateQuotation() {
             let clientName = document.getElementById("clientName").value;
             let totalPrice = parseFloat(document.getElementById("appPrice").value) || 0;
