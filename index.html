@@ -1,99 +1,144 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quotation Maker - Excel Salary</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 600px;
-            margin: auto;
-            padding: 20px;
-            background-color: #f4f4f4;
-        }
-        .container {
-            background: white;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0px 0px 10px #aaa;
-        }
-        input, textarea {
-            width: 100%;
-            margin-bottom: 10px;
-            padding: 8px;
-        }
-        button {
-            padding: 10px;
-            background: #007bff;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OMFO MOMO Feedback</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin:0; padding:0; }
+  body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #000;
+    color: #fff;
+  }
+  .container {
+    max-width: 480px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #1C1C1C;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(255, 193, 7, 0.3);
+  }
+  h1 {
+    text-align: center;
+    color: #FFC107;
+    margin-bottom: 25px;
+    font-size: 22px;
+  }
+  label {
+    display: block;
+    margin: 12px 0 6px;
+    font-weight: 600;
+    font-size: 14px;
+  }
+  input, textarea {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: none;
+    background-color: #000;
+    color: #fff;
+    margin-bottom: 15px;
+    font-size: 14px;
+  }
+  input::placeholder, textarea::placeholder { color: #ccc; }
+
+  /* Star rating aligned left */
+  .rating {
+    display: flex;
+    flex-direction: row; /* left-to-right */
+    justify-content: flex-start;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .rating input { display: none; }
+  .rating label {
+    font-size: 28px;
+    cursor: pointer;
+    color: #555;
+    transition: color 0.2s;
+  }
+  .rating input:checked ~ label,
+  .rating label:hover,
+  .rating label:hover ~ label { color: #FFC107; }
+
+  button {
+    width: 100%;
+    padding: 15px;
+    background-color: #FFC107;
+    color: #000;
+    border: none;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  button:hover { background-color: #FFA000; }
+
+  @media (max-width: 500px) {
+    .container { margin: 15px; padding: 15px; }
+    h1 { font-size: 20px; }
+    .rating label { font-size: 24px; }
+  }
+</style>
 </head>
 <body>
-    <div class="container">
-        <h2>Quotation Maker - Excel Salary</h2>
-        <input type="text" id="clientName" placeholder="Client Name">
-        <input type="text" id="appPrice" placeholder="Total Price">
-        <input type="text" id="advance" placeholder="Advance Payment">
-        <input type="date" id="deliveryDate" placeholder="Expected Delivery Date">
-        <textarea id="features" placeholder="Enter features (comma separated)"></textarea>
-        <button onclick="generateQuotation()">Generate Quotation</button>
+<div class="container">
+  <h1>OMFO MOMO Feedback / फीडबैक</h1>
+  <form action="GOOGLE_FORM_LINK_HERE" method="POST" target="_blank">
+
+    <label for="name">Name / नाम (Optional)</label>
+    <input type="text" name="entry.NAME_ID" placeholder="Your Name / आपका नाम">
+
+    <label for="email">Email / ईमेल (Optional)</label>
+    <input type="email" name="entry.EMAIL_ID" placeholder="Your Email / आपका ईमेल">
+
+    <label>Food Quality / खाने की गुणवत्ता</label>
+    <div class="rating">
+      <input type="radio" name="entry.FOOD_ID" id="food1" value="1"><label for="food1">&#9733;</label>
+      <input type="radio" name="entry.FOOD_ID" id="food2" value="2"><label for="food2">&#9733;</label>
+      <input type="radio" name="entry.FOOD_ID" id="food3" value="3"><label for="food3">&#9733;</label>
+      <input type="radio" name="entry.FOOD_ID" id="food4" value="4"><label for="food4">&#9733;</label>
+      <input type="radio" name="entry.FOOD_ID" id="food5" value="5"><label for="food5">&#9733;</label>
     </div>
 
-    <script>
-        function generateQuotation() {
-            let clientName = document.getElementById("clientName").value;
-            let totalPrice = parseFloat(document.getElementById("appPrice").value) || 0;
-            let advancePayment = parseFloat(document.getElementById("advance").value) || 0;
-            let remainingBalance = totalPrice - advancePayment;
-            let deliveryDate = document.getElementById("deliveryDate").value;
-            let supportDuration = "3 months";
-            
-            if (totalPrice === 999) supportDuration = "1 year";
-            else if (totalPrice === 599) supportDuration = "6 months";
-            else if (totalPrice === 499) supportDuration = "3 months";
-            
-            let features = document.getElementById("features").value.split(",").map(f => f.trim()).join("\n- ");
-            
-            let newPage = window.open("", "_blank");
-            newPage.document.write(`
-                <html>
-                <head><title>Quotation</title></head>
-                <body style='font-family: Arial, sans-serif; padding: 20px;'>
-                    <h2>Quotation</h2>
-                    <p><strong>Company:</strong> Excel Salary</p>
-                    <p><strong>Client:</strong> ${clientName}</p>
-                    <p><strong>Total Price:</strong> ₹${totalPrice.toFixed(2)}</p>
-                    <p><strong>Advance Payment:</strong> ₹${advancePayment.toFixed(2)}</p>
-                    <p><strong>Remaining Balance:</strong> ₹${remainingBalance.toFixed(2)}</p>
-                    <p><strong>Expected Delivery Date:</strong> ${deliveryDate}</p>
-                    <p><strong>Features Included:</strong></p>
-                    <ul><li>${features.replace(/\n/g, '</li><li>')}</li></ul>
-                    <p><strong>Support Duration:</strong> ${supportDuration}</p>
-                    <p><strong>Terms & Conditions:</strong></p>
-                    <ul>
-                        <li>The quoted price includes the software and support for a duration based on the selected plan:
-                            <ul>
-                                <li>₹999 - Support for 1 year</li>
-                                <li>₹599 - Support for 6 months</li>
-                                <li>₹499 - Support for 3 months</li>
-                            </ul>
-                        </li>
-                        <li>Any additional features or modifications will be charged separately.</li>
-                        <li>Delivery will be as per the expected date mentioned above.</li>
-                        <li>Advance payment is non-refundable.</li>
-                    </ul>
-                    <p><strong>For any help or queries, contact us at:</strong> +91 89606 40168</p>
-                    <p><strong>Thank You from Excel Salary Sales Team!</strong></p>
-                </body>
-                </html>
-            `);
-            newPage.document.close();
-        }
-    </script>
+    <label>Service Experience / सेवा अनुभव</label>
+    <div class="rating">
+      <input type="radio" name="entry.SERVICE_ID" id="service1" value="1"><label for="service1">&#9733;</label>
+      <input type="radio" name="entry.SERVICE_ID" id="service2" value="2"><label for="service2">&#9733;</label>
+      <input type="radio" name="entry.SERVICE_ID" id="service3" value="3"><label for="service3">&#9733;</label>
+      <input type="radio" name="entry.SERVICE_ID" id="service4" value="4"><label for="service4">&#9733;</label>
+      <input type="radio" name="entry.SERVICE_ID" id="service5" value="5"><label for="service5">&#9733;</label>
+    </div>
+
+    <label>Restaurant Environment / रेस्टोरेंट वातावरण</label>
+    <div class="rating">
+      <input type="radio" name="entry.ENV_ID" id="env1" value="1"><label for="env1">&#9733;</label>
+      <input type="radio" name="entry.ENV_ID" id="env2" value="2"><label for="env2">&#9733;</label>
+      <input type="radio" name="entry.ENV_ID" id="env3" value="3"><label for="env3">&#9733;</label>
+      <input type="radio" name="entry.ENV_ID" id="env4" value="4"><label for="env4">&#9733;</label>
+      <input type="radio" name="entry.ENV_ID" id="env5" value="5"><label for="env5">&#9733;</label>
+    </div>
+
+    <label>Manager / Staff Behavior / प्रबंधक / स्टाफ व्यवहार</label>
+    <div class="rating">
+      <input type="radio" name="entry.MANAGER_ID" id="manager1" value="1"><label for="manager1">&#9733;</label>
+      <input type="radio" name="entry.MANAGER_ID" id="manager2" value="2"><label for="manager2">&#9733;</label>
+      <input type="radio" name="entry.MANAGER_ID" id="manager3" value="3"><label for="manager3">&#9733;</label>
+      <input type="radio" name="entry.MANAGER_ID" id="manager4" value="4"><label for="manager4">&#9733;</label>
+      <input type="radio" name="entry.MANAGER_ID" id="manager5" value="5"><label for="manager5">&#9733;</label>
+    </div>
+
+    <label>Counter Order Experience / काउंटर ऑर्डर अनुभव (Optional)</label>
+    <input type="text" name="entry.COUNTER_ID" placeholder="Your feedback / आपकी प्रतिक्रिया">
+
+    <label>Additional Comments / अन्य सुझाव</label>
+    <textarea name="entry.COMMENTS_ID" rows="4" placeholder="Your feedback... / आपकी टिप्पणी"></textarea>
+
+    <button type="submit">Submit Feedback / फीडबैक भेजें</button>
+  </form>
+</div>
 </body>
 </html>
