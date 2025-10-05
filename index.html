@@ -1,144 +1,236 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OMFO MOMO Feedback</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-<style>
-  * { box-sizing: border-box; margin:0; padding:0; }
-  body {
-    font-family: 'Poppins', sans-serif;
-    background-color: #000;
-    color: #fff;
-  }
-  .container {
-    max-width: 480px;
-    margin: 20px auto;
-    padding: 20px;
-    background-color: #1C1C1C;
-    border-radius: 12px;
-    box-shadow: 0 0 15px rgba(255, 193, 7, 0.3);
-  }
-  h1 {
-    text-align: center;
-    color: #FFC107;
-    margin-bottom: 25px;
-    font-size: 22px;
-  }
-  label {
-    display: block;
-    margin: 12px 0 6px;
-    font-weight: 600;
-    font-size: 14px;
-  }
-  input, textarea {
-    width: 100%;
-    padding: 12px;
-    border-radius: 8px;
-    border: none;
-    background-color: #000;
-    color: #fff;
-    margin-bottom: 15px;
-    font-size: 14px;
-  }
-  input::placeholder, textarea::placeholder { color: #ccc; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OMFO MOMO Feedback</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-  /* Star rating aligned left */
-  .rating {
-    display: flex;
-    flex-direction: row; /* left-to-right */
-    justify-content: flex-start;
-    gap: 10px;
-    margin-bottom: 20px;
-  }
-  .rating input { display: none; }
-  .rating label {
-    font-size: 28px;
-    cursor: pointer;
-    color: #555;
-    transition: color 0.2s;
-  }
-  .rating input:checked ~ label,
-  .rating label:hover,
-  .rating label:hover ~ label { color: #FFC107; }
+    <style>
+        /* CSS Reset and Basic Setup */
+        :root {
+            --brand-gold: #FFC107;
+            --dark-bg: #121212;
+            --surface-bg: #1E1E1E;
+            --input-bg: #2C2C2C;
+            --text-primary: #E0E0E0;
+            --text-secondary: #A0A0A0;
+            --border-radius-md: 12px;
+            --border-radius-sm: 8px;
+        }
 
-  button {
-    width: 100%;
-    padding: 15px;
-    background-color: #FFC107;
-    color: #000;
-    border: none;
-    border-radius: 12px;
-    font-weight: 600;
-    font-size: 16px;
-    cursor: pointer;
-    transition: 0.3s;
-  }
-  button:hover { background-color: #FFA000; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-  @media (max-width: 500px) {
-    .container { margin: 15px; padding: 15px; }
-    h1 { font-size: 20px; }
-    .rating label { font-size: 24px; }
-  }
-</style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-primary);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* Form Container */
+        .container {
+            width: 100%;
+            max-width: 500px;
+            background-color: var(--surface-bg);
+            padding: 25px;
+            border-radius: var(--border-radius-md);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Header */
+        h1 {
+            text-align: center;
+            color: var(--brand-gold);
+            margin-bottom: 30px;
+            font-size: 1.5rem; /* 24px */
+            font-weight: 700;
+        }
+
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: 500;
+            font-size: 0.9rem; /* 14px */
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+        }
+
+        input[type="text"],
+        input[type="email"],
+        textarea {
+            width: 100%;
+            padding: 14px;
+            background-color: var(--input-bg);
+            border: 1px solid transparent;
+            border-radius: var(--border-radius-sm);
+            color: var(--text-primary);
+            font-size: 1rem; /* 16px */
+            font-family: 'Inter', sans-serif;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        input[type="text"]::placeholder,
+        input[type="email"]::placeholder,
+        textarea::placeholder {
+            color: #6c757d;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--brand-gold);
+            box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.2);
+        }
+        
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        /* Interactive Star Rating */
+        .star-rating {
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: flex-end;
+            gap: 4px;
+        }
+
+        .star-rating input[type="radio"] {
+            display: none;
+        }
+
+        .star-rating label {
+            font-size: 2rem;
+            color: #444;
+            cursor: pointer;
+            transition: color 0.2s ease;
+            margin-bottom: 0;
+            padding: 0 2px;
+        }
+
+        .star-rating input[type="radio"]:checked ~ label,
+        .star-rating label:hover,
+        .star-rating label:hover ~ label {
+            color: var(--brand-gold);
+        }
+
+        /* Submit Button */
+        button[type="submit"] {
+            width: 100%;
+            padding: 16px;
+            background-color: var(--brand-gold);
+            color: #000;
+            border: none;
+            border-radius: var(--border-radius-sm);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #ffb300;
+        }
+        
+        button[type="submit"]:active {
+            transform: scale(0.98);
+        }
+
+    </style>
 </head>
 <body>
+
 <div class="container">
-  <h1>OMFO MOMO Feedback / फीडबैक</h1>
-  <form name="feedback" method="POST" data-netlify="true">
-
-    <label for="name">Name / नाम (Optional)</label>
-    <input type="text" name="entry.NAME_ID" placeholder="Your Name / आपका नाम">
-
-    <label for="email">Email / ईमेल (Optional)</label>
-    <input type="email" name="entry.EMAIL_ID" placeholder="Your Email / आपका ईमेल">
-
-    <label>Food Quality / खाने की गुणवत्ता</label>
-    <div class="rating">
-      <input type="radio" name="entry.FOOD_ID" id="food1" value="1"><label for="food1">&#9733;</label>
-      <input type="radio" name="entry.FOOD_ID" id="food2" value="2"><label for="food2">&#9733;</label>
-      <input type="radio" name="entry.FOOD_ID" id="food3" value="3"><label for="food3">&#9733;</label>
-      <input type="radio" name="entry.FOOD_ID" id="food4" value="4"><label for="food4">&#9733;</label>
-      <input type="radio" name="entry.FOOD_ID" id="food5" value="5"><label for="food5">&#9733;</label>
-    </div>
-
-    <label>Service Experience / सेवा अनुभव</label>
-    <div class="rating">
-      <input type="radio" name="entry.SERVICE_ID" id="service1" value="1"><label for="service1">&#9733;</label>
-      <input type="radio" name="entry.SERVICE_ID" id="service2" value="2"><label for="service2">&#9733;</label>
-      <input type="radio" name="entry.SERVICE_ID" id="service3" value="3"><label for="service3">&#9733;</label>
-      <input type="radio" name="entry.SERVICE_ID" id="service4" value="4"><label for="service4">&#9733;</label>
-      <input type="radio" name="entry.SERVICE_ID" id="service5" value="5"><label for="service5">&#9733;</label>
-    </div>
-
-    <label>Restaurant Environment / रेस्टोरेंट वातावरण</label>
-    <div class="rating">
-      <input type="radio" name="entry.ENV_ID" id="env1" value="1"><label for="env1">&#9733;</label>
-      <input type="radio" name="entry.ENV_ID" id="env2" value="2"><label for="env2">&#9733;</label>
-      <input type="radio" name="entry.ENV_ID" id="env3" value="3"><label for="env3">&#9733;</label>
-      <input type="radio" name="entry.ENV_ID" id="env4" value="4"><label for="env4">&#9733;</label>
-      <input type="radio" name="entry.ENV_ID" id="env5" value="5"><label for="env5">&#9733;</label>
-    </div>
-
-    <label>Manager / Staff Behavior / प्रबंधक / स्टाफ व्यवहार</label>
-    <div class="rating">
-      <input type="radio" name="entry.MANAGER_ID" id="manager1" value="1"><label for="manager1">&#9733;</label>
-      <input type="radio" name="entry.MANAGER_ID" id="manager2" value="2"><label for="manager2">&#9733;</label>
-      <input type="radio" name="entry.MANAGER_ID" id="manager3" value="3"><label for="manager3">&#9733;</label>
-      <input type="radio" name="entry.MANAGER_ID" id="manager4" value="4"><label for="manager4">&#9733;</label>
-      <input type="radio" name="entry.MANAGER_ID" id="manager5" value="5"><label for="manager5">&#9733;</label>
-    </div>
-
-    <label>Counter Order Experience / काउंटर ऑर्डर अनुभव (Optional)</label>
-    <input type="text" name="entry.COUNTER_ID" placeholder="Your feedback / आपकी प्रतिक्रिया">
-
-    <label>Additional Comments / अन्य सुझाव</label>
-    <textarea name="entry.COMMENTS_ID" rows="4" placeholder="Your feedback... / आपकी टिप्पणी"></textarea>
-
-    <button type="submit">Submit Feedback / फीडबैक भेजें</button>
-  </form>
+    <h1>OMFO MOMO Feedback / फीडबैक</h1>
+    
+    <form name="feedback" method="POST" data-netlify="true" action="/thank-you.html">
+        <input type="hidden" name="form-name" value="feedback" />
+        
+        <div class="form-group">
+            <label for="name-field">Name / नाम (Optional)</label>
+            <input type="text" id="name-field" name="name" placeholder="Your Name / आपका नाम">
+        </div>
+        
+        <div class="form-group">
+            <label for="email-field">Email / ईमेल (Optional)</label>
+            <input type="email" id="email-field" name="email" placeholder="Your Email / आपका ईमेल">
+        </div>
+        
+        <div class="form-group">
+            <label>Food Quality / खाने की गुणवत्ता</label>
+            <div class="star-rating">
+                <input type="radio" id="food5" name="food-quality" value="5"><label for="food5">&#9733;</label>
+                <input type="radio" id="food4" name="food-quality" value="4"><label for="food4">&#9733;</label>
+                <input type="radio" id="food3" name="food-quality" value="3"><label for="food3">&#9733;</label>
+                <input type="radio" id="food2" name="food-quality" value="2"><label for="food2">&#9733;</label>
+                <input type="radio" id="food1" name="food-quality" value="1"><label for="food1">&#9733;</label>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label>Service Experience / सेवा अनुभव</label>
+            <div class="star-rating">
+                <input type="radio" id="service5" name="service-experience" value="5"><label for="service5">&#9733;</label>
+                <input type="radio" id="service4" name="service-experience" value="4"><label for="service4">&#9733;</label>
+                <input type="radio" id="service3" name="service-experience" value="3"><label for="service3">&#9733;</label>
+                <input type="radio" id="service2" name="service-experience" value="2"><label for="service2">&#9733;</label>
+                <input type="radio" id="service1" name="service-experience" value="1"><label for="service1">&#9733;</label>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label>Restaurant Environment / रेस्टोरेंट वातावरण</label>
+            <div class="star-rating">
+                <input type="radio" id="env5" name="environment" value="5"><label for="env5">&#9733;</label>
+                <input type="radio" id="env4" name="environment" value="4"><label for="env4">&#9733;</label>
+                <input type="radio" id="env3" name="environment" value="3"><label for="env3">&#9733;</label>
+                <input type="radio" id="env2" name="environment" value="2"><label for="env2">&#9733;</label>
+                <input type="radio" id="env1" name="environment" value="1"><label for="env1">&#9733;</label>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label>Manager / Staff Behavior / प्रबंधक / स्टाफ व्यवहार</label>
+            <div class="star-rating">
+                <input type="radio" id="behavior5" name="staff-behavior" value="5"><label for="behavior5">&#9733;</label>
+                <input type="radio" id="behavior4" name="staff-behavior" value="4"><label for="behavior4">&#9733;</label>
+                <input type="radio" id="behavior3" name="staff-behavior" value="3"><label for="behavior3">&#9733;</label>
+                <input type="radio" id="behavior2" name="staff-behavior" value="2"><label for="behavior2">&#9733;</label>
+                <input type="radio" id="behavior1" name="staff-behavior" value="1"><label for="behavior1">&#9733;</label>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label for="counter-experience-field">Counter Order Experience / काउंटर ऑर्डर अनुभव</label>
+            <input type="text" id="counter-experience-field" name="counter-experience" placeholder="Describe your interaction / अपनी बातचीत का वर्णन करें">
+        </div>
+        
+        <div class="form-group">
+            <label for="comments-field">Additional Comments / अन्य सुझाव</label>
+            <textarea id="comments-field" name="comments" rows="4" placeholder="Your feedback... / आपकी टिप्पणी"></textarea>
+        </div>
+        
+        <button type="submit">Submit Feedback / फीडबैक भेजें</button>
+    </form>
 </div>
+
 </body>
 </html>
